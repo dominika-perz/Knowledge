@@ -28,13 +28,14 @@ x_i, y_i) ith training examples
 
 Training set -> Learning Algorithm -> h (hypothesis) - maps from x to y
 h -> e.g. linear function (linear regression with one variable, univariate linear regression), quadratic function
-Linear regression -> h = theta_0 + theta_1(x); theta->parameters
+Linear regression -> ![](https://latex.codecogs.com/gif.latex?h%20%3D%20%5CTheta_0%20&plus;%20%5CTheta_1%28x%29)<!--h = theta_0 + theta_1(x); Theta--> ![](https://latex.codecogs.com/gif.latex?%5CTheta)->parameters
 
 ### Cost function
 Squred error cost function (Mean squared error) (often used for regression)
-: minimize sum((h(x)-y)^2)/m -> squared difference between the prediction and the actual output.
+: minimize ![](https://latex.codecogs.com/gif.latex?%5Csum%5Cfrac%7B%28h%28x%29-y%29%5E2%7D%7Bm%7D) <!--sum((h(x)-y)^2)/m--> -> squared difference between the prediction and the actual output.
 
-J(theta_0, theta_1) = 1/(2*m) * sum(h(x_i)-y_i)^2
+![](https://latex.codecogs.com/gif.latex?J%28%5CTheta_0%2C%20%5CTheta_1%29%20%3D%20%5Cfrac%7B1%7D%7B%282m%29%7D%5Csum%28h%28x_i%29-y_i%29%5E2)
+<!--J(theta_0, theta_1) = 1/(2*m) * sum(h(x_i)-y_i)^2-->
 Goal: minimize J
 
 If J == 0, then the hypothesis perfectly describes the system.
@@ -49,8 +50,8 @@ Found minimum can be local and depends on the initialisation of the parameters.
 Cost function should decrese after EVERY iteration.
 
 alpha - learning rate, determined how big steps we make in the descent direction.
-If alpha is very smalle the gradient descent can be slow, if it is too big we can overshoot the minimum and the algorithm can fail to converge or even diverge. As we appraoch minimum, the diveritive will become smaller so there is no need to descrese the alpha - it can be fixed.
-theta_j = theta_j - alpha* delta/delta(theta_j){J(theta_0, theta_1) for j=0,1
+If alpha is very small the gradient descent can be slow, if it is too big we can overshoot the minimum and the algorithm can fail to converge or even diverge. As we appraoch minimum, the diveritive will become smaller so there is no need to descrese the alpha - it can be fixed.
+![](https://latex.codecogs.com/gif.latex?%5CTheta_j%20%3D%20%5CTheta_j%20-%20%5Calpha*%5Cfrac%7B%5Cdelta%20J%28%5CTheta_0%2C%20%5CTheta_1%29%7D%7B%5Cdelta%20%5CTheta_j%7D)<!--theta_j = theta_j - alpha* delta/delta(theta_j)*J(theta_0, theta_1)--> for j=0,1
 theta_0 and theta_1 have to be updated simultaneously.
 
 Batch Gradient Descent - each step uses all the trainint examples
@@ -59,17 +60,19 @@ For linear regression gradient descent always converge to the global minimum, be
 ### Multiple features
 n - number of features
 m - number of examples
-x_i - vector of features i =1,...,m
-x_i_j - jth element of the vector x_i, j=1,...,n
+![](https://latex.codecogs.com/gif.latex?x%5Ei)<!--x^i--> - vector of features i = 1,...,m
+![](https://latex.codecogs.com/gif.latex?x%5Ei_j)<!--x^i-j--> - jth element of the vector ![](https://latex.codecogs.com/gif.latex?x%5Ei)<!--x^i-->, j=1,...,n
 
 Linear Regression
 we add addition x_0 which is always equal to 1. Then:
-h(x) = Theta^T * x
+![hypothesis_multivariable](https://latex.codecogs.com/gif.latex?h%28x%29%20%3D%20%5CTheta%5ET*x)
 where Theta and x are vectors of size n+1
+<!--h(x) = Theta^T*x-->
 
 Gradient Descent
 Update rule:
-theta_j = theta_j - alpha*1/m*sum(h(x_i) - y_i)*x_i_j
+![update rule](https://latex.codecogs.com/gif.latex?%5CTheta_j%20%3D%20%5CTheta_j%20-%20%5Calpha*%5Cfrac%7B1%7D%7Bm%7D*%5Csum_%7Bi%3D1%7D%5E%7Bm%7D%28h%28x%5Ei%29%20-%20y%5Ei%29*x%5Ei_j)
+<!--theta_j = theta_j - alpha*1/m*sum(h(x_i) - y_i)*x_i_j-->
 
 Feature Scaling
 Scale feature so that they are on similar scale - faster diveragance for the gradient descent
