@@ -2,8 +2,11 @@
 
 ## Glossary
 SQL - Structured Query Language 
+
 Database - repository of data with basic functionality like adding, modifying and quering.
+
 RDBMS = Relational Database management system eg. MySQL, DB Warehouse on Cloud
+
 Relation - a table
 Atributes - columns in the table
 Tuple - rows in the table
