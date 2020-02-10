@@ -46,17 +46,17 @@ CREATE TABLE <table_name>(
  -> PRIMARY KEY
  
  ### DELETE
- DELETE FROM <table> WHERE <condition>
+ DELETE FROM <table_name> WHERE <condition>
  
  ### INSERT
- INSERT INTO <table>(<atributes>) VALUES (<values>)
+ INSERT INTO <table_name>(<atributes_name>) VALUES (<values>)
  
  ### SELECT
- SELECT * or <function> or <atributes> FROM <table> -> * = all
- SELECT * FROM <table> WHERE <condition1> AND <condition2> 
- SELECT * FROM <table> WHERE <condition1> AND <condition2> ORDERED BY <atribute> (DESC -> descending)
- SELECT * FROM <table> WHERE <condition1> AND <condition2> ORDERED BY <atribute> LIMIT <max_number_of columns>
- SELECT * FROM <table1> JOIN <table2> WHERE <table1_foreing_key> == <table2_primary_key> 
+ SELECT * or <function> or <atributes_name> FROM <table_name> -> * = all
+ SELECT * FROM <table_name> WHERE <condition1> AND <condition2> 
+ SELECT * FROM <table_name> WHERE <condition1> AND <condition2> ORDERED BY <atribute> (DESC -> descending)
+ SELECT * FROM <table_name> WHERE <condition1> AND <condition2> ORDERED BY <atribute> LIMIT <max_number_of columns>
+ SELECT * FROM <table1_name> JOIN <table2_name> WHERE <table1_foreing_key> == <table2_primary_key> 
  
  ### UPDATE
- UPDATE <table> SET <atribute>=<value> WHERE <condition>
+ UPDATE <table_name> SET <atribute>=<value> WHERE <condition>
