@@ -30,16 +30,16 @@ __DDL__ - Data Definition Language
 __DML__ - Data Manipulation Language
 
 ## Data types
--CHAR(<number>) - string of a length <number>
--VARCHAR(<number>) - a varied length string (max length is <number>)
--INTEGER
--FLOAT
--TEXT
--BYTE(<number>)
--BLOB - images: binary large object
--DATE
--TIME
--TIMESTAMP
+- CHAR(<number>) - string of a length <number>
+- VARCHAR(<number>) - a varied length string (max length is <number>)
+- INTEGER
+- FLOAT
+- TEXT
+- BYTE(<number>)
+- BLOB - images: binary large object
+- DATE
+- TIME
+- TIMESTAMP
 
 ## Simple commands
 ### CREATE
