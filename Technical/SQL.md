@@ -34,16 +34,17 @@ TIMESTAMP
 ## Simple commands
 ### CREATE
 CREATE DATABASE
-CREATE TABLE <table_name>(
-  <atribute_name> <atribute_type> <additional_conditions>
-  <atribute_name> <atribute_type>
+
+CREATE TABLE <table_name>( \\
+  <atribute_name> <atribute_type> <additional_conditions> \\
+  <atribute_name> <atribute_type> <\br>
   ...
-  ;)
+  );
   
  additional_conditions:
- -> AUTOINCREMENT
- -> NOT NULL
- -> PRIMARY KEY
+ - AUTOINCREMENT
+ - NOT NULL
+ - PRIMARY KEY
  
  ### DELETE
  DELETE FROM <table_name> WHERE <condition>
@@ -53,9 +54,13 @@ CREATE TABLE <table_name>(
  
  ### SELECT
  SELECT * or <function> or <atributes_name> FROM <table_name> -> * = all
+  
  SELECT * FROM <table_name> WHERE <condition1> AND <condition2> 
+  
  SELECT * FROM <table_name> WHERE <condition1> AND <condition2> ORDERED BY <atribute> (DESC -> descending)
+  
  SELECT * FROM <table_name> WHERE <condition1> AND <condition2> ORDERED BY <atribute> LIMIT <max_number_of columns>
+  
  SELECT * FROM <table1_name> JOIN <table2_name> WHERE <table1_foreing_key> == <table2_primary_key> 
  
  ### UPDATE
