@@ -1,7 +1,7 @@
 # SQL
 
 ## Glossary
-SQL - Structured Query Language
+SQL - Structured Query Language 
 Database - repository of data with basic functionality like adding, modifying and quering.
 RDBMS = Relational Database management system eg. MySQL, DB Warehouse on Cloud
 Relation - a table
@@ -14,7 +14,7 @@ Logical key - also unique, possible to get rows with this key, it is more user-f
 Foreing key - a key that points to another table's primary key
 Schema - a first row of the table with the names of the atributes
 DDL - Data Definition Language
-DML - DAta Manipulation Language
+DML - Data Manipulation Language
 
 ## Data types
 CHAR(<number>) - string of a length <number>
