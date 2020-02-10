@@ -12,24 +12,36 @@ Degree - number of atributes in the table
 Primary key - usually autoincremented integer, a unique set of values that allow for a quick finding a correct row
 Logical key - also unique, possible to get rows with this key, it is more user-friendly e.g. string
 Foreing key - a key that points to another table's primary key
-
+Schema - a first row of the table with the names of the atributes
+DDL - Data Definition Language
+DML - DAta Manipulation Language
 
 ## Data types
 CHAR(<number>) - string of a length <number>
 VARCHAR(<number>) - a varied length string (max length is <number>)
 INTEGER
-
-
+FLOAT
+TEXT
+BYTE(<number>)
+BLOB - images: binary large object
+DATE
+TIME
+TIMESTAMP
 
 ## Simple commands
 ### CREATE
 CREATE DATABASE
 CREATE TABLE <table_name>(
-  <atribute_name> <atribute_type>
+  <atribute_name> <atribute_type> <additional_conditions>
   <atribute_name> <atribute_type>
   ...
   ;)
   
+ additional_conditions:
+ -> AUTOINCREMENT
+ -> NOT NULL
+ -> PRIMARY KEY
+ 
  ### DELETE
  DELETE FROM <table> WHERE <condition>
  
@@ -44,4 +56,4 @@ CREATE TABLE <table_name>(
  SELECT * FROM <table1> JOIN <table2> WHERE <table1_foreing_key> == <table2_primary_key> 
  
  ### UPDATE
- UPDATE
+ UPDATE <table> SET <atribute>=<value> WHERE <condition>
