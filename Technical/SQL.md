@@ -45,10 +45,10 @@ __DML__ - Data Manipulation Language
 ### CREATE
 CREATE DATABASE
 
-CREATE TABLE <table_name>( \\
-  <atribute_name> <atribute_type> <additional_conditions> \\
-  <atribute_name> <atribute_type> <\br>
-  ...
+CREATE TABLE <table_name>(  <br \>
+  <atribute_name> <atribute_type> <additional_conditions> <br \>
+  <atribute_name> <atribute_type> <br \>
+  ... <br \>
   );
   
  additional_conditions:
