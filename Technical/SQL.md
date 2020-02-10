@@ -1,23 +1,33 @@
 # SQL
 
 ## Glossary
-SQL - Structured Query Language 
+__SQL__ - Structured Query Language 
 
-Database - repository of data with basic functionality like adding, modifying and quering.
+__Database__ - repository of data with basic functionality like adding, modifying and quering.
 
-RDBMS = Relational Database management system eg. MySQL, DB Warehouse on Cloud
+__RDBMS__ = Relational Database management system eg. MySQL, DB Warehouse on Cloud
 
-Relation - a table
-Atributes - columns in the table
-Tuple - rows in the table
-Cava
-Degree - number of atributes in the table
-Primary key - usually autoincremented integer, a unique set of values that allow for a quick finding a correct row
-Logical key - also unique, possible to get rows with this key, it is more user-friendly e.g. string
-Foreing key - a key that points to another table's primary key
-Schema - a first row of the table with the names of the atributes
-DDL - Data Definition Language
-DML - Data Manipulation Language
+__Relation__ - a table
+
+__Atributes__ - columns in the table
+
+__Tuple__ - rows in the table
+
+__Cava__
+
+__Degree__ - number of atributes in the table
+
+__Primary key__ - usually autoincremented integer, a unique set of values that allow for a quick finding a correct row
+
+__Logical key__ - also unique, possible to get rows with this key, it is more user-friendly e.g. string
+
+__Foreing key__ - a key that points to another table's primary key
+
+__Schema__ - a first row of the table with the names of the atributes
+
+__DDL__ - Data Definition Language
+
+__DML__ - Data Manipulation Language
 
 ## Data types
 CHAR(<number>) - string of a length <number>
