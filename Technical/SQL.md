@@ -67,6 +67,8 @@ CREATE TABLE <table_name>(
   
  SELECT * FROM <table_name> WHERE <condition1> AND <condition2> 
   
+ SELECT * FROM <table_name> WHERE <condition1> AND <condition2> GROUPED By <atribute> ORDERED BY <atribute>
+  
  SELECT * FROM <table_name> WHERE <condition1> AND <condition2> ORDERED BY <atribute> (DESC -> descending)
   
  SELECT * FROM <table_name> WHERE <condition1> AND <condition2> ORDERED BY <atribute> LIMIT <max_number_of columns>
@@ -75,3 +77,13 @@ CREATE TABLE <table_name>(
  
  ### UPDATE
  UPDATE <table_name> SET <atribute>=<value> WHERE <condition>
+  
+ ## Functions
+ COUNT() 
+ MIN() 
+ MAX() 
+ AVG() 
+
+## Key words
+DESC - descending 
+DISINCT - only unique values  
