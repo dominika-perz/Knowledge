@@ -27,6 +27,12 @@
 
 ## Neural Networks
 * Rectified Linear Unit (ReLU)
+* Leaky ReLU
 * Sigmoid function
 * Input/Output/Hidden Layer
 * Dense layer
+* Artificial Neural Networks (ANN)
+* Convolutional Neural Networks (CNN)
+* Recurrent Neural Network (RNN)
+* Long Short-Term Memory (LSTM)
+* Gated Recurrent Unit (GRU) - a simplified LSTM
