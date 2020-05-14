@@ -4,11 +4,22 @@
 ### Regression
 * linear regression
 * logistic regression
-
+## Probabilitics and statistics
+* Conditional probability
+* Bayes Theorem
+* Distributions:
+ * Binomial
+ * Normal
+ * Poisson
+ * Bernoulli
+* Descriptive statistics
+* Law of Large Numbers
+* Central Limit Theorem
 ## Metrics
 * Confusion matrix: https://en.wikipedia.org/wiki/Confusion_matrix
   * Accuracy
   * Recall
+  * Precision
   * f-score
   * error type I
   * error type II
@@ -23,7 +34,12 @@
 
 ## Machine Learning
 * Supported Vector Machine
-
+* Supervised/unsupervised learning
+* Regression / Classification
+* K-Near Neighbors (KNN)
+* Clustering
+* K-means Clustering
+* Inductinve/deductive learning
 
 ## Neural Networks
 * Rectified Linear Unit (ReLU)
