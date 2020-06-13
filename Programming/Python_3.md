@@ -9,7 +9,14 @@ Rules for assignment:
 * An augmented assignment will create a new object only if a lefthand variable is immutable.  
 * Assigning a new value does not modify this value, but creates a new one that is now referenced (rebinding). If the old value does not have a strong references to it anymore it is garbage collected.  
 * If a mutable object is passed to a functions, it can modify it, to prevent this we have to mae a local copy or revert the object back to its original state before returning.  
-* Be careful (or better don't) mutable objects as default values for functions parameters,because that can be changed inplace
+* Be careful (or better don't) mutable objects as default values for functions parameters,because that can be changed inplace, this also means that we should not have an empty list ``[]`` as a default value, it is better to use None, like this:
+```python
+def func(self, nums = None):
+    if self.nums is None:
+        self.nums = []
+    else:
+        self.nums = nums
+```
 
 ### ``Assert`` statement
 The ``assert`` statement is used to assert that something is true, if it is not an exeption will be raised.Normally it is better to handle the abnormality / catch the exception and quit then just quit by throwingan exception by ``assert``.
@@ -65,7 +72,7 @@ MyClass.how_many()
 All methods and fields are public in Python. If you add double underscore prefix, the Python will use name-mangling to make it private, so it will automatically add the name of the class as a prefix eg. if class ``Dog`` has an atribute ``__mood``, then to cal it outside of this class, you would need to call ``_Dog__mod``. This is for sefety (accidentely calling this method, not knowing that it is private), not for security (you can still do it, but you are aware that it is private and you should not). Some do not like the look of this so by convention if you add _ before the name it should be treated as a protected atribute. This is just convention (as ALL_CAPS mean constant value). Trying to conceal the private atrributs of a class is called **encapsulation**.
 
 ### Inheritance
-An idea of having a general class with common functionality and atributes and having a subclasses that inherit this common methods and atributes from the parent class (**base class** or **superclass**), but also implement their functionality (**subclass** or **derived class**).
+An idea of having a general class with common functionality and atributes and having a subclasses that inherit this common methods and atributes from the parent class (**base class** or **superclass**), but also implement their functionality (**subclass** or **derived class**). The chain of inheritance is called **Method Resolution Order**
 
 We can refer to the base class by the keyword ``super``. The subclasses can implement the same methods are base class, in that case the subclass implementation will be called by the subtype object (the parent implementation is overridden). However, inside the subclass implementation, a implementation of a parent class can be called by ``super.func_name()``. If the method is only implemented in a parent class, then this impleemntation will be call via subtype object.
 
@@ -208,6 +215,62 @@ with ... as <name>:
 ```
 ``__enter__`` - a setup for the context manager
 ``__exit__`` - a tear down for the context manager
+```python
+class Open_File:
+   def __init__(self, filename, mode):
+       self.filename = filename
+       self.mode = mode
+   def __enter__(self)
+       self.file = open(self.filename, self.mode)
+       return self.file
+   def __exit__(self, exc_type, exc_val, traceback):
+       self.file.close()
+
+with Open_File('sample.txt', 'w') as f:
+    f.write('Lorem ipsum dolor sit amet, consectetur adipiscing elit.')
+```
+
+there is also a ``@contextmanager`` decorator that has to be imported from ``contextlib``  
+```python
+@contextmanager
+def open_file(file, mode):
+    try:
+       f = open(file, mode)
+       yield f
+    finally:
+       f.close()
+
+with open_file('sample.txt', 'w') as f:
+    f.write('Lorem ipsum dolor sit amet, consectetur adipiscing elit.')
+```
+## Exceptions
+```python
+try:
+    pass
+except Exception as e:
+    pass
+else:
+   pass
+finally:
+    pass
+```
+We can also raise exceptions ourselves by ``raise``
+
+## Unit Test
+* Name convention: ``test_<tested-module>.py``  
+* Imports: ``unittest`` and ``<tested_module>``  
+* Running from command line: ``python -m unittest test_<tested-module>.py``  
+To make sure that this runs automatically:
+```python
+if __name__ == '__main__':
+    unittest.main()
+```
+* Assertions: ``assertEqual(ans, expected), assertTrue(ans), assertRaises(error, func, arg*)`` or with context manager: ``with self.assertRaises(error): func(arg*)``
+* Functions ``setUp`` and ``tearDown`` prepare and clean for/after each one of the tests
+* Functions ``@classmethod setUpClass(cls)`` and ``@classmethod tearDownClass(cls)`` prepare and clean before and after the whole class
+* **Mocking**: ``unittest.mock``
+ * patch -> can be used as a decorator or a context manager, we use to it to mock e.g. a function that is getting info from a website or from a database and we don't want our test to fail if the webside does not respound, so we mock it so we can control what it is returning, so that we test only our code.  
+* Tests should be isolated
 
 # PEP 8
 * **Indentation: 4 spaces** per level, spaces are prefered over tabs
@@ -231,4 +294,17 @@ hypot2 = x*x + y*y
 c = (a+b) * (a-b)
 ```
 * Do not use spaces with ``=`` in parameters assignment
-* **Trailing comma**
+* **Trailing comma** - have to be used in a tuple with a single value, and they are useful when there is a lot of elements seperated by comma, where each element is in a new line and the ending parenthesis is on the next line on its own, then a trailing comma after each element is useful when adding extra parameters.
+* **Comments** should be a full sentences, that start with a capital letter and end with a period and two spaces (except for a final sentence). Use inline comments very sparingly 
+* Write **docstring** for all public objects, \`\`\` should be on seperate lines, unles the doc is a oneliner
+* **Namining conventions**:  
+ * ``_single_leading_underscore`` - weak internal use, these functions will not be imported with *
+ * ``single_trailing_underscore_`` - to prevent from name colision with Python built-in names 
+ * ``__double_leading_underscore`` - private atributes, Python will use name mangling
+ * ``__double_leading_and_trailing_underscores__`` - magic methods and objects, do not use for your names
+ * no-nos: small el: ``l``, big eye ``I``, big oh ``O``
+ * Classes - CapWords (the same as CamelCase), if include abrreviation, all should be in cap e.g. HTMLClient
+ * Modules and packages: small letters, short names, underscore maybe in module
+ * functions and variables: lower case with underscores (mixCase only when it is already used)
+ * Constants: ALL_CAP
+ 
