@@ -118,6 +118,8 @@ The list of special methods:
 * Reversed bitwise operators ``__rlshift__, __rrshift__, __rand__, __rxor__, __ror__``  
 * Augmented assignment bitwise operators ``__ilshift__, __irshift__, __iand__, __ixor__, __ior__``  
 
+``__repr__`` vs. ``__str__`` -> ``__repr()__`` is more for the developers and it should be something that if we copy ans paste it we could recreate the object, whereas ``__str__`` is for displaying for end user and will be called in ``print`` (if not implemented ``print`` will call ``__repr__`` instead)
+
 ### Decorators
 **Decorator** is a callable that takes another function as an argument (the decorated function). They are an example of **metaprogramming**
 They can replace the decorated function with another one or perform a check or verification before the decorated function is run.
