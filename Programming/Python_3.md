@@ -274,6 +274,39 @@ if __name__ == '__main__':
  * patch -> can be used as a decorator or a context manager, we use to it to mock e.g. a function that is getting info from a website or from a database and we don't want our test to fail if the webside does not respound, so we mock it so we can control what it is returning, so that we test only our code.  
 * Tests should be isolated
 
+## Logging
+``logging`` module is in the standard library, we just need to import it. The are are several levels of logging information:
+- **DEBUG** detail info used for debuging
+- **INFO** confirmation that things are working as expected
+- **WARNING** something unpredicted happend or something may cause roblems in the future, but the code is running as expected
+- **ERROR** - serious problem detected, software is not working as it should
+- **CRITICAL** - serious error, the program may be unable to continue running
+The default level for catching logs is WARNING (so DEBUG and INFO will no be logged), to change this we need to set a value to``level`` parameter in ``logging.basicConfig``. By default the logs are printed in the console, to change this will assign a value to ``filename``. We can also change the format: https://docs.python.org/3/library/logging.html#formatter-objects
+```python
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+formatter = logging.Formatter('%(levelname)s:%(name)s:%(message)s')
+
+file_handler = logging.FileHandler('test.log')
+file_handler.setFormatter(formatter)
+
+stream_handler = logging.StreamHandler('test.log')
+stream_handler.setFormatter(formatter)
+stream_handler.setLevel(logging.ERROR)
+
+logger.addHandler(file_handler)
+logger.addHandler(stream_handler)
+
+# logging.basicConfig(filename='test.log', level=logging.DEBUG) #this changes root logger
+
+logger.debug('This will be logged as debug')
+logger.error('This is logged error')
+logger.exception('This is logged error with traceback')
+```
+
 # PEP 8
 * **Indentation: 4 spaces** per level, spaces are prefered over tabs
 * Max line length should be **79 characters**. It can be ok to extend to 99 characters for code, but docs and comments should be up to 72 characters.
