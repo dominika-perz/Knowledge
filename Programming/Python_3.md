@@ -1,4 +1,18 @@
 # Python 3
+* [Assignments](#assignments)
+* [Type annotation](#type-annotation)
+* [Object Oriented Programming (OOP)](#object-oriented-programming-oop)
+* [Functions](#functions)
+* [Docstring](#docstring)
+* [Dunder](#dunder)
+* [Decorators](#decorators)
+* [Closure](#closure)
+* [Context Manager](#context-manager)
+* [Exceptions](#exceptions)
+* [UnitTest](#unit-test)
+* [Logging](#logging)
+* [PEP 8](#pep-8)
+
 
 ## Assignments
 **Augmented assigment**: performs as inplace modification of  the variable: e.g. ``+=``, ``-=``, etc.
@@ -120,7 +134,7 @@ The list of special methods:
 
 ``__repr__`` vs. ``__str__`` -> ``__repr()__`` is more for the developers and it should be something that if we copy ans paste it we could recreate the object, whereas ``__str__`` is for displaying for end user and will be called in ``print`` (if not implemented ``print`` will call ``__repr__`` instead)
 
-### Decorators
+## Decorators
 **Decorator** is a callable that takes another function as an argument (the decorated function). They are an example of **metaprogramming**
 They can replace the decorated function with another one or perform a check or verification before the decorated function is run.
 The decorators are executed imediately after the declarated funciton is defined, so usually when the module is imported. Syntex:    
