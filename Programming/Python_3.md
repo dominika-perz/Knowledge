@@ -1,5 +1,6 @@
 # Python 3
 * [Assignments](#assignments)
+* [Module vs. Package](#module-vs-package)
 * [Type annotation](#type-annotation)
 * [Object Oriented Programming (OOP)](#object-oriented-programming-oop)
 * [Functions](#functions)
@@ -11,6 +12,7 @@
 * [Exceptions](#exceptions)
 * [UnitTest](#unit-test)
 * [Logging](#logging)
+* [Threading vs. Multiprocessing](#threading-vs-multiprocessing)
 * [PEP 8](#pep-8)
 
 
@@ -35,6 +37,12 @@ def func(self, nums = None):
 ### ``Assert`` statement
 The ``assert`` statement is used to assert that something is true, if it is not an exeption will be raised.Normally it is better to handle the abnormality / catch the exception and quit then just quit by throwingan exception by ``assert``.
 
+### Pickling and unpickling
+The process of serialising on object into a byte string it called **picking**. We can do **unpickling** later on and recreate an object from this byte string. You can use it e.g. for trained machine learning classifier. This is in a standard library, you just need to import ``pickle`` module
+
+## Module vs. Package
+A **package** is a collection of Python **modules**: while a module is a single Python file, a package is a directory of Python modules containing an additional __init__.py file, to distinguish a package from a directory that just happens to contain a bunch of Python scripts
+
 ## Type annotation  
 **Annotation** - are optional and on their own do not mean anything, but can be used but third libraries or IDEs for verification
   * vairiable: e.g. ``primes: List[int] = []`` or ``name: str``
@@ -50,6 +58,8 @@ while 1:
   yield b # every time the fib() is called, w new value for b will be return
   a, b = b, a+b # an update that is performed after evry call
 ```
+Generators do not create and store all of the values, but calculate and retrun them on the fly. A gebnerator can be used as an iterator in a for loop to loop through all the elements it returns.
+
 ## Functions  
 Functions are a **first-class object** - the idea is that you can assign functions to a variable or pass them to another funciton or store them in a data structure. All functions in Python are first-class. First-class object can:  
  * be created at the runtime  
@@ -320,6 +330,10 @@ logger.debug('This will be logged as debug')
 logger.error('This is logged error')
 logger.exception('This is logged error with traceback')
 ```
+
+## Threading vs. Multiprocessing
+Threads use only one core and so **threading** (code runs concurrently, but not in parallel, we execute code line and then waiting for the imput, we go ahead and run the next line, so the code is not running in parallel) can improve the preformance of the code if the tasks are I/O bound e.g. downloading data from the internet or waiting for an input to be received. **Multiprocessing** (= running code in parallel) uses multiple cores are is used for CPU bound tasks, so tasks that are heavy in processing, calculation etc. ``multiprocessing`` and ``threads`` are part of the standard library so we just need to import them.
+
 
 # PEP 8
 * **Indentation: 4 spaces** per level, spaces are prefered over tabs
