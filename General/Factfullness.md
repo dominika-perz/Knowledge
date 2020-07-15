@@ -1,3 +1,0 @@
-# Factfullness
-Hans Rosling
-
