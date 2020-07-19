@@ -37,7 +37,7 @@ The most common OS are Windows, macOD and Linux (desktop OS for computers) or An
 3 key elements of OS are:  
 - **Abstractions** (process, thread, file, socket, memory),  
 - **Mechanisms** (create, schedule, open, write, allocate),  
-- **Policies** (LRU - least recently used, EDF - ). 
+- **Policies** (LRU - least recently used, EDF). 
 
 Examples of basic OD services:
 - scheduler
@@ -127,23 +127,47 @@ If you recieves more requests than the amount you can serve (your throughput) th
 Increasing your throughput can be achieved by adding hardware (*horizontal scaling*) or increasing the capacity and performance of an existing hardware (*vertical scaling*). You can also improve your throughput by splitting the load.
 
 ## System Availability
+**Resilince** - comming back from failure quickly
+**Availability** - resilience of the system, ability to handle eerrors (being fault-tolerant). For the whole system to be availabile each its element has to be highly available. It is calculate as percentage of time that primary functionality is available (**uptime**) in a given time window (commercially it is annual uptime). Needed availability depends on the nature of the system: some may require almost perfect other can have lower availability during off-peak hours. As commercial systems have availability on the level of 99.99%, it is common to refer to the *number of nines* or *class of nines* e.g. %99.999 - 5 nines reliability or class 5 - this level is assumed ideal as it translates to little over 5 minuts of **downtime** per year.  
+**Uptime** - time when primary functionality and operations are available.  
+**Downtime** - time when the basic functionality is not available.  
 
+**SLA (Service Level Agreements/Assurances)** - is a metric provided by service providers that guarantees certain level of service (e.g. in terms of availability). Failing to meet promised SLA entitles to compensation from the client side. 
 
-
-## Load balancing
-**Load balancing** - when we have multiple servers (horizontal scaling) the load balancer is responsible for allocating (distributing) the workload in a balanced way across all the servers. The DHCP client will now know not the IP address of the server itself, but rather of the load balancer, which allows all the servers to have private address only known to the load balancer. To balance the workload we can do something called **round robin** - we iterate over the servers, returning the address of the next servr every time someone sends a request.
+**HA (High Availability)** - to assure HA you need to eliminate *single points of failure*, so parts in the system where one element failing is enough for the whole system to fail. Thie means introducing **redundancy**, so basically adding backups or more equipment to duplicate the weakest parts.
 
 **RAID** - Redundant Array of Independent Disks
-Data storage technique where several disks are used as asingle lgical unit allowing for redundancy and better performance as data is being stored over several discs. Different RAID levels means different levels of performance ans redundancy (and price). Even if one dics dies, all data is secure and you can just buy a new one and plug it in. Used often for servers.
+Data storage technique where several disks are used as a single logical unit allowing for redundancy and better performance as data is being stored over several discs. Different RAID levels means different levels of performance ans redundancy (and price). Even if one dics dies, all data is secure and you can just buy a new one and plug it in. Used often for servers.
 
-**Downtime**
+## Caching
+**Caching** is technique to speed-up the system as it reduces *latency* in the system, by keeping frequently used data in the way that allows for a quick retrival. E.g. keeping data in the memory rather than on the disk or remembering previous results in computationally intensive work (memoisation, dynamic programming). Another example would be to keep websites (especially once that are static) in **CDN - Content Delivery Network** (a network for delivering content (images, text, video, audio) in a big, distributed system) to reduce the load on the backend servers. The caching can be also done for writes but requires additional work to assure syncronisation between the cache and the storage unit.
+
+## Proxy
+**Proxy** is a server or bit of code that acts as a middle man between the clint and another server. In general proxy refers to *forward proxy*, where it substitute client in client-server communication, itf it substitute server it is called *reversed proxy*. Proxy can be use to mask the identity of the client from server (**VPNs**), distribute load on the group of backend servers or impose filtering/security. Examples of proxy is **gatekeeper**, **screener** or **load balancer**.
+
+## Load balancing
+**Load balancing** - when we have multiple servers (horizontal scaling) the load balancer is responsible for allocating (distributing) the workload in a balanced way across all the servers. To balance the workload we can do something called **round robin** - we iterate over the available servers starting with the forst one, than second, and so on, after the last one, we go back to the first and the order is reapeted. A variation would be to add weights to the server to represents that some may be more powerful than others. Another idea is to monitor the load on each of the servers and distribute work accordingly (**load-based selection**). Another way is to use hashed IP of the client to determined the server, this is useful for distinguishing servers best suited for different regions (**IP hashing based selection**). You can also have dedicated servers for different functionalities (**service nased selecetion**). Ofc it is also possible to mix different load balancing approaches in your design.   
+
+The DHCP client will now know not the IP address of the server itself, but rather of the load balancer, which allows all the servers to have private address only known to the load balancer. So load balancer is an example of a *reverse proxy*. To keep the addresses of the servers private, the respounce for client may have only a big number that load balancer can map to the server IP - that way the client cannot access server directly, but the load balancer knows to which server this client is talking to. This is important especially if client requests are part of teh same session on the website.
+
+**Hashing** - deterministic, returns a fixed size number - a *hash*. Small difference in input should largely influence the hash. If two different inputs gives tha same hash it is a *colision*. Each values for ahsh should be equally probable - so hash funstion should be *uniformily distributed*.  
+If using hashing for load balancing we can have problems when one server dies or we add a new server. To help with that we use **consistent hashing** (a ring of hash values, the requests are match to the first clock-wise server: https://www.youtube.com/watch?v=zaRkONvyGr8&list=PLMCXHnjXnTnvo6alSjVkgxV-VH6EPyvoX&index=4, each server is hashed with k different hash funcitons).
+
+## Databases
+**Relational databases** - have a specific structure defined in *schema* that is impose on every *record*. Whole databse can be represented as tables (sigle table is an *entity*) with different relations between them. Every row in the table is a *record* and each column is a *attribute* or *field*. To get information from the Relational DB with can send *queries* using *SQL (Structure Query Language)*.  
+- Pros: consistency, possible complecated queries, quicker read, longer write.  
+- Examples: PostgreSQL, MySQL
+
+**ACID (Atomic, Consistent, Isolation, Dureble)**
+
 
 **Replication**
 
 **Particioning** - dividing the workload between servers based on some information from the client, e.g. the geographic location or first letter of the surname.
 
-**High availabity**
+**Asynchronous processing** - it doesn’t block the client i.e. browser is responsive and during the time it is waiting for the response from the server, the user can perform another operations. In **synchronous processing** the client would be blocked for the whole time it is waiting for the response.
 
-**Resilince** - comming back from failure quickly
+**Message Queue** - a very useful concept in system design, it is an asynchronous communications protocol. Basic architecture s as follows: there is a client called producer that creates messages and deliver them to the message queue. After ack that the message is in the queue, client can go on doing different tasks, it does not need to wait for the respose to th emessage (asynchronous). On the other side, there are servers, called consumer, that connect to the queue and gets messages to be processed. The messages stays in the queue untill consumer realises them. MQ allows for decoupling of the system and in terms for better scalability. The messages are persist (remembered even with the loss of power) until there are released from the queue.
 
-**CDN - Content Delivery Network** - a network for delivering content (images, text, video, audio) in a big, distributed system.
+**Monolith** vs **microservice** architecture:
+
