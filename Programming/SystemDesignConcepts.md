@@ -28,6 +28,15 @@ General approach:
 1. [Networks & Protocols](#networks--protocols)
 2. [Storage, Latency & Throughput](#storage-latency--throughput)
 3. [System Availability](#system-availability)
+4. [Caching](#caching)
+5. [Proxy](#proxy)
+6. [Load balancing](#load-balancing)
+7. [Databases](#databases)
+8. [Leader Election](#leader-election)
+9. [Polling, Streaming & Socket](#polling-streaming--socket)
+10. [Endpoint Protection / Rate limiting](#endpoint-protection--rate-limiting)
+11. [Messaging & Pub-Sub pattern](#messaging--pub-sub-pattern)
+12. [Logging, monitoring, alerting](#logging-monitoring-alerting)
 
 ## Operating systems
 **Operating system** is a collection of software that manages hardware and provides services for programs. It is a translator between the user natural language (sually through GUI) and the 0's and 1's understandable for the computer. It hides hardware complexity and manages internal resources. The major components of OS are: **file system**, **scheduler** and **devide driver**.
@@ -140,7 +149,7 @@ Increasing your throughput can be achieved by adding hardware (*horizontal scali
 Data storage technique where several disks are used as a single logical unit allowing for redundancy and better performance as data is being stored over several discs. Different RAID levels means different levels of performance ans redundancy (and price). Even if one dics dies, all data is secure and you can just buy a new one and plug it in. Used often for servers.
 
 ## Caching
-**Caching** is technique to speed-up the system as it reduces *latency* in the system, by keeping frequently used data in the way that allows for a quick retrival. E.g. keeping data in the memory rather than on the disk or remembering previous results in computationally intensive work (memoisation, dynamic programming). Another example would be to keep websites (especially once that are static) in **CDN - Content Delivery Network** (a network for delivering content (images, text, video, audio) in a big, distributed system) to reduce the load on the backend servers. The caching can be also done for writes but requires additional work to assure syncronisation between the cache and the storage unit.
+**Caching** is technique to speed-up the system as it reduces *latency* in the system, by keeping frequently used data in the way that allows for a quick retrival. E.g. keeping data in the memory rather than on the disk or remembering previous results in computationally intensive work (memoisation, dynamic programming). Another example would be to keep websites (especially once that are static) in **CDN - Content Delivery Network** (a network for delivering content (images, text, video, audio) in a big, distributed system) to reduce the load on the backend servers. The caching can be also done for writes but requires additional work to assure syncronisation between the cache and the storage unit. Two possible way of synchronisation in *write-through* (synchronously, updaes on write to cache) and *write-back* (write only to cache, write to storage e.g. before deleting the variable from cache).
 
 ## Proxy
 **Proxy** is a server or bit of code that acts as a middle man between the clint and another server. In general proxy refers to *forward proxy*, where it substitute client in client-server communication, itf it substitute server it is called *reversed proxy*. Proxy can be use to mask the identity of the client from server (**VPNs**), distribute load on the group of backend servers or impose filtering/security. Examples of proxy is **gatekeeper**, **screener** or **load balancer**.
@@ -154,20 +163,57 @@ The DHCP client will now know not the IP address of the server itself, but rathe
 If using hashing for load balancing we can have problems when one server dies or we add a new server. To help with that we use **consistent hashing** (a ring of hash values, the requests are match to the first clock-wise server: https://www.youtube.com/watch?v=zaRkONvyGr8&list=PLMCXHnjXnTnvo6alSjVkgxV-VH6EPyvoX&index=4, each server is hashed with k different hash funcitons).
 
 ## Databases
+### Relational databases
 **Relational databases** - have a specific structure defined in *schema* that is impose on every *record*. Whole databse can be represented as tables (sigle table is an *entity*) with different relations between them. Every row in the table is a *record* and each column is a *attribute* or *field*. To get information from the Relational DB with can send *queries* using *SQL (Structure Query Language)*.  
 - Pros: consistency, possible complecated queries, quicker read, longer write.  
 - Examples: PostgreSQL, MySQL
 
-**ACID (Atomic, Consistent, Isolation, Dureble)**
+**ACID (Atomic, Consistent, Isolation, Durable)**
+ACID *transactions* (= interaction with the DB, e.g. read or write)  
+**Atomic** - if transaction is more complex, if any part of the transaction will fail, the whole transation should fail - all or nothing, this keeps the data clean and not modufied by an incomplete trasaction.  
+**Consistency** - each transaction moves DB from one valid statwe to another valid state, the transaction cannot corrupt the data and every read operation gets the most recent write result.  
+**Isolation** - even if several transaction are happening at the same time, they will be performed sequentially  
+**Durabiliyt** - stored data will remain (persist) in the database even after the loss of power or otehr failure.
 
+### Non-relational databases
+**Non-relational databases (NoSQL DB)** are more flexible tructure, not schema, the data is kept most often as key-value pairs. Fast, simple to use, but do not support complex queries. Used for caching, configuration files, sesion state or environmental variables. Can be implemented with memeory (e.g. *Memcache*) or in persistent storage (*DynomaDb*). Another popular NoSQL database is *MongoDb* that has JSON-like format. Non-relational db follows **BASE**:  
+**Basically Available** - system querantees availability  
+**Soft State** - state of the system may change over time even without the input.  
+**Eventual Consistency** - the data will be synchronised every very small period of time, but not instantly. It is possible to get stale state of data.  
 
-**Replication**
+### Indexing, replication, sharding
+**Indexing** - adding an artitraly table that holds records ids in order with respect to chosen attribute. Use extra spac and makes writes a bit longer, but significantly speeds up the read process. It makes sense to do it for attributes that you often search by.  
 
-**Particioning** - dividing the workload between servers based on some information from the client, e.g. the geographic location or first letter of the surname.
+**Replication** - creating copies (replicating) the database over two or more servers. Helps with redundancy, but itroduces problem of data synchronisation: the database can ba updated synchroniously or asynchronously. Chosen tactic depends on your needs.  
 
-**Asynchronous processing** - it doesn’t block the client i.e. browser is responsive and during the time it is waiting for the response from the server, the user can perform another operations. In **synchronous processing** the client would be blocked for the whole time it is waiting for the response.
+**Asynchronous processing** - it doesn’t block the client i.e. browser is responsive and during the time it is waiting for the response from the server, the user can perform another operations. In **synchronous processing** the client would be blocked for the whole time it is waiting for the response.  
 
-**Message Queue** - a very useful concept in system design, it is an asynchronous communications protocol. Basic architecture s as follows: there is a client called producer that creates messages and deliver them to the message queue. After ack that the message is in the queue, client can go on doing different tasks, it does not need to wait for the respose to th emessage (asynchronous). On the other side, there are servers, called consumer, that connect to the queue and gets messages to be processed. The messages stays in the queue untill consumer realises them. MQ allows for decoupling of the system and in terms for better scalability. The messages are persist (remembered even with the loss of power) until there are released from the queue.
+**Sharding** or **Particioning** - dividing the workload between servers based on some information from the client, e.g. the geographic location or first letter of the surname.  
+
+## Leader Election
+**Leader election** is used when you have several server, from which only one is responsible for somthing (a leader) and the rest of the servers should be on stand-by (followers). If the leader crashes, the followers should select a new leader among themselves and the system an fuction properly. The problem is to have all the followers agree upon the selection (their states stay in sync) - for this a **consensus algrithm** is used. These algorithms are complicated and are implemented in sotware like *Etcd* (non-relational db with high availability and strong consistency - this allows it to store a key-value pair for indicating who the leader is, that will always be the source of truth for the servers.  
+
+## Polling, Streaming & Socket
+**Polling** - client repeatably sends request to server to get an update on a certain value (it *pulls* data from a server) . We can do it every 10s / 1min or any oter iterval. This will not quarantee an instant update and therefore can be only used in some applications. If the interval is really small, polling can overload the network or server. Can be used e.g. to update temperature reading on your smart phone app.  
+
+**Streaming** - for instantenious updates we should use streaming. To allow for this communication, a web-socket has to be opened between the client and the server. The client does not need to send any further requests, it is on stand-by or any time the data change, the server *pushes* that data into a socket and it can be received by the client. E.g. can be used for message app. Example: *Apache Kafka*  
+
+**Socket** - a two-way dedicated channel (socket) between client and a server. It is open with a signle request and stays open until one of the machine close it or the netwrok drops.  
+
+## Endpoint Protection / Rate limiting
+We may decide to limit the rate at which client can request data from our server. The limit can be per user, IP addres or region. We can allow for 3 requests per second and at the same time 10 times per minute or impose any other limit logic. After the limit is reach, the server will imediately return an error following the next request. The rate-limiting can also protect from **DoS (Denial of Service)** attack where malicious client will ping the server to block service for other users or brake the server. A variation that is harder to detect is **DDoS (Distributed DoS)** where the malicious pings can come from different clients that are hard to link together. It is popular to use externel server e.g. *Redis service* that will hold information related to rate-limiting that very server can check after getting a request.  
+
+## Messaging & Pub-Sub pattern
+**Network partion** - fail in the network communication, some of the data may not have been delivered.
+**Pub/Sub pattern** - a very popular model for communication between machines. There are four elements: *publishers*, *subscribers*, *messages* and *topics*. A machine generating data or *messages* is called a *publisher*, after a message is ready to be send, it is published to a *topic*. Different *topics* can have different category of messages published to them. Any machine interested is recieving the messages can subscribe to the topic and become a *subscriber*. When the message appears in the topic, the topic guarantees (by e.g. waiting for an acknowledment) that it will be delivered to each of the subscribers **at least once** (it can be more than once if some problem occurs). Topic also eeps the original order of messages. Because the message can be delivered more than once to the client, it should be **idempotent** - their result should be the same no matter how many times it will be performed e.g. setting a flag to True or False. Popular messaging softwares are *Apache Kafka*, *RabbitMQ*, *Google Cloud Pub/Sub*, *AWS SNS/SQS*.  
+
+**Message Queue** - a very useful concept in system design, it is an asynchronous communications protocol. Basic architecture s as follows: there is a client called producer that creates messages and deliver them to the message queue. After ack that the message is in the queue, client can go on doing different tasks, it does not need to wait for the respose to th emessage (asynchronous). On the other side, there are servers, called consumer, that connect to the queue and gets messages to be processed. The messages stays in the queue untill consumer realises them. MQ allows for decoupling of the system and in terms for better scalability. The messages are persist (remembered even with the loss of power) until there are released from the queue.  
+
+## Logging, monitoring, alerting
+**Logging** - useful for debugging and analising performance and characteristic of the system. Log messages from around the system should be collected into log files.  
+**Monitoring** - timeseries gather by your service used to analise and monitor the service, let you get insights into your service.  
+**Alerting** - whenever something like latency or througput will cross an acceptable limit, an owner of the servicxe should be alerted (e.g. by sending a message on slack) that this situation occurs. This helps to prevent failures.  
+
 
 **Monolith** vs **microservice** architecture:
 
